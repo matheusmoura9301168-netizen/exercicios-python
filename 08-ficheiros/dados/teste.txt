@@ -1,0 +1,3 @@
+Python
+Ler e escrever ficheiros de texto
+Terceira linha de exemplo
