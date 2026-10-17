@@ -12,4 +12,6 @@ def multiplicacao(x,y):
     return x*y
 # Recebe dois números e retorna a divisão do primeiro pelo segundo
 def divisao(x,y):
+    if y == 0:
+        return "não é possível dividir por zero"
     return x/y

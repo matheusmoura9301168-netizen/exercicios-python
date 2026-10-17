@@ -17,5 +17,9 @@ while limit != 0:
     print()
     limit = int(input("Quantos termos quer mostrar a mais? (0 para terminar): "))
 
-soma = primeiro * (razao**total - 1) // (razao - 1)
+# com razão 1 todos os termos são iguais e a fórmula dividiria por zero
+if razao == 1:
+    soma = primeiro * total
+else:
+    soma = primeiro * (razao**total - 1) // (razao - 1)
 print("A soma de todos os termos mostrados é", soma)

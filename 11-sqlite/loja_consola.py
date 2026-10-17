@@ -230,32 +230,34 @@ def fluxo_cliente():
             time.sleep(0.8)
         except ValueError:
             print("Entrada inválida.")
+        except sqlite3.IntegrityError:
+            print("Esse produto não existe.")
 
-        # Resumo e pagamento
-        pedidos = listar_pedidos_cliente(cliente_id)
-        if not pedidos:
-            print("\nNenhum item comprado.")
-            return
+    # Resumo e pagamento
+    pedidos = listar_pedidos_cliente(cliente_id)
+    if not pedidos:
+        print("\nNenhum item comprado.")
+        return
 
-        print("\nResumo da compra:")
-        for nome_prod, qtd, preco, total in pedidos:
-            print(f"Produto: {nome_prod} | Qtd: {qtd} | Preço: {preco:.2f} | Total: {total:.2f}")
+    print("\nResumo da compra:")
+    for nome_prod, qtd, preco, total in pedidos:
+        print(f"Produto: {nome_prod} | Qtd: {qtd} | Preço: {preco:.2f} | Total: {total:.2f}")
 
-        total = total_cliente(cliente_id)
-        print(f"\nPreço Final: {total:.2f} euros")
-        print("\nEscolha um modo de pagamento:\n(1) Crédito\n(2) Débito\n(3) Refeição (10% desconto)")
-        try:
-            opc = int(input("Opção: ").strip())
-        except ValueError:
-            opc = 1  # Se o usuário digitar algo inválido, assume crédito
+    total = total_cliente(cliente_id)
+    print(f"\nPreço Final: {total:.2f} euros")
+    print("\nEscolha um modo de pagamento:\n(1) Crédito\n(2) Débito\n(3) Refeição (10% desconto)")
+    try:
+        opc = int(input("Opção: ").strip())
+    except ValueError:
+        opc = 1  # Se o usuário digitar algo inválido, assume crédito
 
-        if opc == 3:
-            total_desc = aplicar_desconto(total, 10)
-            print(f"Preço Final com Desconto: {total_desc:.2f} euros")
-        else:
-            print(f"Preço Final: {total:.2f} euros")
+    if opc == 3:
+        total_desc = aplicar_desconto(total, 10)
+        print(f"Preço Final com Desconto: {total_desc:.2f} euros")
+    else:
+        print(f"Preço Final: {total:.2f} euros")
 
-        print("\nObrigado por comprar na G.L.Y.M.E.R.S. Volte sempre!\n")
+    print("\nObrigado por comprar na G.L.Y.M.E.R.S. Volte sempre!\n")
 
     # Fluxo Administrador
 
@@ -296,10 +298,14 @@ def fluxo_admin():
 
         elif op == '4':
             nome = input("Nome do produto: ").strip()
-            preco = float(input("Preço: ").strip())
-            print("Categoria: Talheres / Mesa / Guardanapos / Pratos / Copos")
-            categoria = input("Informe a categoria: ").strip().title()
-            fornecedor_id = int(input("ID do fornecedor: ").strip())
+            try:
+                preco = float(input("Preço: ").strip().replace(",", "."))
+                print("Categoria: Talheres / Mesa / Guardanapos / Pratos / Copos")
+                categoria = input("Informe a categoria: ").strip().title()
+                fornecedor_id = int(input("ID do fornecedor: ").strip())
+            except ValueError:
+                print("Valor inválido. O preço e o ID do fornecedor têm de ser números.")
+                continue
             cadastrar_produto(nome, preco, categoria, fornecedor_id)
             print("Produto cadastrado.")
 

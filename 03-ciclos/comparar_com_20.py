@@ -22,12 +22,13 @@ while contador < 10:
         Cont3 += 1
         contador = contador + 1
 
-media1 = soma1 / Cont2
-media = soma / Cont1
+# evita a divisão por zero quando não há números acima ou abaixo de 20
+media1 = soma1 / Cont2 if Cont2 > 0 else 0
+media = soma / Cont1 if Cont1 > 0 else 0
 print(f"numeros superiores a 20: {Cont1}")
-print(f"numeros Inferiores a 20: {Cont2}")
+print(f"numeros inferiores a 20: {Cont2}")
 print(f"numeros Iguais a 20: {Cont3}")
 print(f"A média dos numeros superiores é: {media}")
-print(f"A média dos numeros infriores é: {media1}")
+print(f"A média dos numeros inferiores é: {media1}")
 print(f"A soma dos numeros superiores é: {soma}")
-print(f"A soma dos numeros infriores é: {soma1}")
+print(f"A soma dos numeros inferiores é: {soma1}")
